@@ -1,0 +1,70 @@
+{
+  "name": "the-master-key",
+  "version": "1.0.0",
+  "description": "A reflection system to track your personal progress",
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "make:win": "electron-builder --win --config.win.signAndEditExecutable=false",
+    "make:mac": "electron-builder --mac",
+    "make:linux": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "com.masterkey.app",
+    "productName": "The Master Key",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "src/renderer/assets/icons/app.ico",
+      "signAndEditExecutable": false
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "src/renderer/assets/icons/app.icns"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "src/renderer/assets/icons/app.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "The Master Key"
+    }
+  },
+  "keywords": [
+    "personal-development",
+    "tracking",
+    "meditation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "electron-reload": "^2.0.0-alpha.1"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "sqlite3": "^5.1.6",
+    "tailwindcss": "^3.3.5"
+  }
+}
