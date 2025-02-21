@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Master Key</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Top Image -->
+        <div class="w-full h-64 mb-8 rounded-lg overflow-hidden">
+            <img src="assets/images/jelly_ninja_the_master_key_grimoires_closeup_bokeh_7e6a8cde-0d9e-4f12-bfa5-55985eb01631.png" alt="The Master Key" class="w-full h-full object-cover">
+        </div>
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4">The Master Key</h1>
+            <p class="text-xl text-gray-600">A reflection system to track your personal progress</p>
+        </header>
+
+        <!-- New Entry Button -->
+        <div class="flex justify-center mb-8">
+            <button id="newEntryBtn" class="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-3">
+                <span class="text-2xl">✨</span>
+                <span class="font-medium">Start New Entry</span>
+            </button>
+        </div>
+
+        <!-- Summary Chart -->
+        <div class="mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4">Summary</h2>
+                <canvas id="summaryChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div id="quickAccessSection" class="grid grid-cols-5 gap-8 mb-8 hidden">
+            <!-- Mental Product -->
+            <div class="bg-red-50 p-4 rounded-lg">
+                <div class="flex items-center space-x-2 mb-2">
+                    <img src="assets/icons/brain.svg" alt="Mental" class="w-5 h-5">
+                    <h3 class="font-semibold text-red-600">Mental Product</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">What is worth it?</p>
+                <div class="space-y-2">
+                    <input type="range" class="quick-access-slider w-full" min="0" max="100" value="50" data-category="mentalProduct">
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>0%</span>
+                        <span class="value-display text-red-600 font-medium">50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health -->
+            <div class="bg-teal-50 p-4 rounded-lg">
+                <div class="flex items-center space-x-2 mb-2">
+                    <img src="assets/icons/health.svg" alt="Health" class="w-5 h-5">
+                    <h3 class="font-semibold text-teal-600">Health</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">Eating well?</p>
+                <div class="space-y-2">
+                    <input type="range" class="quick-access-slider w-full" min="0" max="100" value="50" data-category="health">
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>0%</span>
+                        <span class="value-display text-teal-600 font-medium">50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Efficiency -->
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <div class="flex items-center space-x-2 mb-2">
+                    <img src="assets/icons/time.svg" alt="Time" class="w-5 h-5">
+                    <h3 class="font-semibold text-blue-600">Time Efficiency</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">Is it fully utilized?</p>
+                <div class="space-y-2">
+                    <input type="range" class="quick-access-slider w-full" min="0" max="100" value="50" data-category="timeEfficiency">
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>0%</span>
+                        <span class="value-display text-blue-600 font-medium">50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Creative Power -->
+            <div class="bg-purple-50 p-4 rounded-lg">
+                <div class="flex items-center space-x-2 mb-2">
+                    <img src="assets/icons/creative.svg" alt="Creative" class="w-5 h-5">
+                    <h3 class="font-semibold text-purple-600">Creative Power</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">Understood?</p>
+                <div class="space-y-2">
+                    <input type="range" class="quick-access-slider w-full" min="0" max="100" value="50" data-category="creativePower">
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>0%</span>
+                        <span class="value-display text-purple-600 font-medium">50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concentration -->
+            <div class="bg-yellow-50 p-4 rounded-lg">
+                <div class="flex items-center space-x-2 mb-2">
+                    <img src="assets/icons/focus.svg" alt="Focus" class="w-5 h-5">
+                    <h3 class="font-semibold text-yellow-600">Concentration</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">Can you focus?</p>
+                <div class="space-y-2">
+                    <input type="range" class="quick-access-slider w-full" min="0" max="100" value="50" data-category="concentration">
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>0%</span>
+                        <span class="value-display text-yellow-600 font-medium">50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-5 gap-8">
+            <!-- Left Column - References -->
+            <div class="col-span-1">
+                <h2 class="font-semibold mb-4">Reference</h2>
+                <hr class="mb-4">
+                <div class="space-y-4">
+                    <a href="pages/Mental Product.html" class="flex items-center space-x-2 text-red-600 hover:underline">
+                        <img src="assets/icons/brain.svg" alt="Mental" class="w-5 h-5">
+                        <span>Mental Product</span>
+                    </a>
+                    <a href="pages/Health.html" class="flex items-center space-x-2 text-teal-600 hover:underline">
+                        <img src="assets/icons/health.svg" alt="Health" class="w-5 h-5">
+                        <span>Health</span>
+                    </a>
+                    <a href="pages/Time Efficiency.html" class="flex items-center space-x-2 text-blue-600 hover:underline">
+                        <img src="assets/icons/time.svg" alt="Time" class="w-5 h-5">
+                        <span>Time Efficiency</span>
+                    </a>
+                    <a href="pages/Creative Power.html" class="flex items-center space-x-2 text-purple-600 hover:underline">
+                        <img src="assets/icons/creative.svg" alt="Creative" class="w-5 h-5">
+                        <span>Creative Power</span>
+                    </a>
+                    <a href="pages/Concentration.html" class="flex items-center space-x-2 text-yellow-600 hover:underline">
+                        <img src="assets/icons/focus.svg" alt="Focus" class="w-5 h-5">
+                        <span>Concentration</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column - Progress Tracking -->
+            <div class="col-span-4">
+                <!-- Logs Table -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-2xl font-bold mb-4">Progress Logs</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2">Date</th>
+                                    <th class="px-4 py-2">Mental Product</th>
+                                    <th class="px-4 py-2">Health</th>
+                                    <th class="px-4 py-2">Time Efficiency</th>
+                                    <th class="px-4 py-2">Creative Power</th>
+                                    <th class="px-4 py-2">Concentration</th>
+                                    <th class="px-4 py-2">Summary</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-table-body">
+                                <!-- Logs will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meditation Steps -->
+        <div class="mt-8 bg-white rounded-lg shadow p-6">
+            <h2 class="text-2xl font-bold mb-4">Meditation Steps</h2>
+            <ol class="list-decimal list-inside space-y-4">
+                <li class="flex items-center">
+                    <span class="text-xl mr-2">🏡</span>
+                    <span><strong>Find a Quiet Space:</strong> Choose a peaceful location where you won't be disturbed</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-xl mr-2">🧘‍♂️</span>
+                    <span><strong>Comfortable Position:</strong> Sit in a comfortable position with your spine straight</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-xl mr-2">💆‍♂️</span>
+                    <span><strong>Physical Relaxation:</strong> Let your body relax naturally, releasing any tension</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-xl mr-2">🌬️</span>
+                    <span><strong>Breathing:</strong> Take slow, deep breaths and feel the air moving through your body</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-xl mr-2">🧠</span>
+                    <span><strong>Clear Mind:</strong> Gently close your eyes and allow your thoughts to settle</span>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="components/app.js"></script>
+</body>
+</html> 

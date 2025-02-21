@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Power - The Master Key</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <nav class="mb-8">
+            <a href="../index.html" class="text-blue-500 hover:text-blue-600">← Back to Dashboard</a>
+        </nav>
+
+        <header class="mb-12">
+            <div class="flex items-center space-x-4">
+                <img src="../assets/icons/creative-power.svg" alt="Creative Power" class="w-12 h-12">
+                <div>
+                    <h1 class="text-4xl font-bold text-yellow-600">Creative Power</h1>
+                    <p class="text-xl text-gray-600">Unleash your imagination</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-3 gap-8">
+            <!-- Left Column - Description -->
+            <div class="col-span-2">
+                <div class="bg-white rounded-lg shadow p-6 mb-8">
+                    <h2 class="text-2xl font-bold mb-4">Understanding Creative Power</h2>
+                    <p class="text-gray-700 mb-4">
+                        Creative power is your ability to generate novel ideas, solve problems innovatively, and express yourself uniquely. It's about tapping into your imagination and bringing new possibilities to life.
+                    </p>
+                    <h3 class="text-xl font-semibold mb-2">Key Aspects to Consider:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Ideation and brainstorming</li>
+                        <li>Artistic expression</li>
+                        <li>Problem-solving abilities</li>
+                        <li>Innovation mindset</li>
+                        <li>Creative confidence</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-2xl font-bold mb-4">Improvement Strategies</h2>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">1. Daily Creative Practice</h3>
+                            <p>Set aside time each day for creative activities and exploration.</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">2. Mind Mapping</h3>
+                            <p>Use visual brainstorming to connect ideas and generate new concepts.</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">3. Creative Constraints</h3>
+                            <p>Work within limitations to spark innovative solutions.</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">4. Inspiration Collection</h3>
+                            <p>Gather and organize sources of inspiration for future reference.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Progress -->
+            <div class="col-span-1">
+                <div class="bg-white rounded-lg shadow p-6 mb-8">
+                    <h2 class="text-xl font-semibold mb-4">Your Progress</h2>
+                    <canvas id="creativePowerChart"></canvas>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-semibold mb-4">Quick Assessment</h2>
+                    <div class="space-y-4">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Today's Creative Power Rating</label>
+                            <input type="range" class="w-full mt-2" min="0" max="100" value="50">
+                            <div class="flex justify-between text-sm text-gray-500">
+                                <span>Low</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                            Save Rating
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize chart
+        const ctx = document.getElementById('creativePowerChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Will be populated with dates
+                datasets: [{
+                    label: 'Creative Power Progress',
+                    data: [], // Will be populated with values
+                    fill: true,
+                    borderColor: 'rgb(202, 138, 4)',
+                    backgroundColor: 'rgba(202, 138, 4, 0.1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Load data from main process
+        async function loadCreativePowerData() {
+            try {
+                const logs = await window.ipcRenderer.invoke('get-logs');
+                const data = logs.map(log => ({
+                    date: new Date(log.timestamp).toLocaleDateString(),
+                    value: log.creativePower
+                }));
+
+                chart.data.labels = data.map(d => d.date);
+                chart.data.datasets[0].data = data.map(d => d.value);
+                chart.update();
+            } catch (error) {
+                console.error('Error loading creative power data:', error);
+            }
+        }
+
+        // Initial load
+        loadCreativePowerData();
+    </script>
+</body>
+</html> 

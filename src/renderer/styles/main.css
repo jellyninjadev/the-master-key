@@ -1,0 +1,126 @@
+/* Custom slider styling */
+input[type="range"] {
+    -webkit-appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: #e2e8f0;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4299e1;
+    cursor: pointer;
+    transition: background .15s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #3182ce;
+}
+
+/* Category-specific slider colors */
+.bg-red-50 input[type="range"]::-webkit-slider-thumb {
+    background: #f56565;
+}
+
+.bg-teal-50 input[type="range"]::-webkit-slider-thumb {
+    background: #38b2ac;
+}
+
+.bg-blue-50 input[type="range"]::-webkit-slider-thumb {
+    background: #4299e1;
+}
+
+.bg-purple-50 input[type="range"]::-webkit-slider-thumb {
+    background: #9f7aea;
+}
+
+.bg-yellow-50 input[type="range"]::-webkit-slider-thumb {
+    background: #ecc94b;
+}
+
+/* Slider save feedback */
+.saving-success {
+    animation: saveSuccess 0.5s ease-in-out;
+}
+
+.saving-error {
+    animation: saveError 0.5s ease-in-out;
+}
+
+@keyframes saveSuccess {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(72, 187, 120, 0.5);
+    }
+}
+
+@keyframes saveError {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(245, 101, 101, 0.5);
+    }
+}
+
+/* Smooth transitions */
+.bg-red-100,
+.bg-teal-100,
+.bg-blue-100,
+.bg-purple-100,
+.bg-yellow-100 {
+    transition: all 0.3s ease;
+}
+
+/* Hover effects for cards */
+.rounded-lg.shadow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+/* Table row hover effect */
+tbody tr:hover {
+    background-color: #f7fafc;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+
+/* Meditation steps list styling */
+.list-decimal li {
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+}
+
+/* Emoji size consistency */
+.text-xl {
+    font-size: 1.5rem;
+    line-height: 1;
+} 

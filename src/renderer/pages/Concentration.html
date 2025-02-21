@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concentration - The Master Key</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <nav class="mb-8">
+            <a href="../index.html" class="text-blue-500 hover:text-blue-600">← Back to Dashboard</a>
+        </nav>
+
+        <header class="mb-12">
+            <div class="flex items-center space-x-4">
+                <img src="../assets/icons/concentration.svg" alt="Concentration" class="w-12 h-12">
+                <div>
+                    <h1 class="text-4xl font-bold text-purple-600">Concentration</h1>
+                    <p class="text-xl text-gray-600">Mastering mental focus</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-3 gap-8">
+            <!-- Left Column - Description -->
+            <div class="col-span-2">
+                <div class="bg-white rounded-lg shadow p-6 mb-8">
+                    <h2 class="text-2xl font-bold mb-4">Understanding Concentration</h2>
+                    <p class="text-gray-700 mb-4">
+                        Concentration is the ability to direct and maintain your attention on a specific task or goal. It's a fundamental skill that enhances learning, productivity, and overall mental performance.
+                    </p>
+                    <h3 class="text-xl font-semibold mb-2">Key Aspects to Consider:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Mental focus duration</li>
+                        <li>Distraction management</li>
+                        <li>Mindfulness practices</li>
+                        <li>Environmental optimization</li>
+                        <li>Mental stamina</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-2xl font-bold mb-4">Improvement Strategies</h2>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-purple-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">1. Meditation Practice</h3>
+                            <p>Regular meditation to strengthen focus and attention span.</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">2. Environment Design</h3>
+                            <p>Create a distraction-free workspace conducive to focus.</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">3. Single-Tasking</h3>
+                            <p>Focus on one task at a time to build concentration strength.</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">4. Mental Breaks</h3>
+                            <p>Take strategic breaks to maintain optimal concentration levels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Progress -->
+            <div class="col-span-1">
+                <div class="bg-white rounded-lg shadow p-6 mb-8">
+                    <h2 class="text-xl font-semibold mb-4">Your Progress</h2>
+                    <canvas id="concentrationChart"></canvas>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-semibold mb-4">Quick Assessment</h2>
+                    <div class="space-y-4">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Today's Concentration Rating</label>
+                            <input type="range" class="w-full mt-2" min="0" max="100" value="50">
+                            <div class="flex justify-between text-sm text-gray-500">
+                                <span>Low</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                            Save Rating
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize chart
+        const ctx = document.getElementById('concentrationChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Will be populated with dates
+                datasets: [{
+                    label: 'Concentration Progress',
+                    data: [], // Will be populated with values
+                    fill: true,
+                    borderColor: 'rgb(147, 51, 234)',
+                    backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Load data from main process
+        async function loadConcentrationData() {
+            try {
+                const logs = await window.ipcRenderer.invoke('get-logs');
+                const data = logs.map(log => ({
+                    date: new Date(log.timestamp).toLocaleDateString(),
+                    value: log.concentration
+                }));
+
+                chart.data.labels = data.map(d => d.date);
+                chart.data.datasets[0].data = data.map(d => d.value);
+                chart.update();
+            } catch (error) {
+                console.error('Error loading concentration data:', error);
+            }
+        }
+
+        // Initial load
+        loadConcentrationData();
+    </script>
+</body>
+</html> 

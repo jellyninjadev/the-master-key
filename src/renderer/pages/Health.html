@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health - The Master Key</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <nav class="mb-8">
+            <a href="../index.html" class="text-blue-500 hover:text-blue-600">← Back to Dashboard</a>
+        </nav>
+
+        <header class="mb-12">
+            <div class="flex items-center space-x-4">
+                <img src="../assets/icons/health.svg" alt="Health" class="w-12 h-12">
+                <div>
+                    <h1 class="text-4xl font-bold text-teal-600">Health</h1>
+                    <p class="text-xl text-gray-600">Eating well?</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-3 gap-8">
+            <!-- Left Column - Description -->
+            <div class="col-span-2">
+                <div class="bg-white rounded-lg shadow p-6 mb-8">
+                    <h2 class="text-2xl font-bold mb-4">Understanding Health</h2>
+                    <p class="text-gray-700 mb-4">
+                        Health is the foundation of all personal development. It encompasses physical well-being, nutrition, exercise, and overall lifestyle choices that contribute to your vitality and energy levels.
+                    </p>
+                    <h3 class="text-xl font-semibold mb-2">Key Aspects to Consider:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Nutrition and diet quality</li>
+                        <li>Physical activity level</li>
+                        <li>Sleep quality and duration</li>
+                        <li>Stress management</li>
+                        <li>Overall energy levels</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-2xl font-bold mb-4">Improvement Strategies</h2>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-teal-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">1. Balanced Nutrition</h3>
+                            <p>Focus on whole foods, balanced meals, and proper hydration.</p>
+                        </div>
+                        <div class="p-4 bg-teal-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">2. Regular Exercise</h3>
+                            <p>Incorporate both cardio and strength training into your routine.</p>
+                        </div>
+                        <div class="p-4 bg-teal-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">3. Quality Sleep</h3>
+                            <p>Maintain a consistent sleep schedule and create a restful environment.</p>
+                        </div>
+                        <div class="p-4 bg-teal-50 rounded-lg">
+                            <h3 class="font-semibold mb-2">4. Stress Management</h3>
+                            <p>Practice relaxation techniques and maintain work-life balance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Progress -->
+            <div class="col-span-1">
+                <div class="bg-white rounded-lg shadow p-6 mb-8">
+                    <h2 class="text-xl font-semibold mb-4">Your Progress</h2>
+                    <canvas id="healthChart"></canvas>
+                </div>
+
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-semibold mb-4">Quick Assessment</h2>
+                    <div class="space-y-4">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Today's Health Rating</label>
+                            <input type="range" class="w-full mt-2" min="0" max="100" value="50">
+                            <div class="flex justify-between text-sm text-gray-500">
+                                <span>Low</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors">
+                            Save Rating
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize chart
+        const ctx = document.getElementById('healthChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Will be populated with dates
+                datasets: [{
+                    label: 'Health Progress',
+                    data: [], // Will be populated with values
+                    fill: true,
+                    borderColor: 'rgb(13, 148, 136)',
+                    backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Load data from main process
+        async function loadHealthData() {
+            try {
+                const logs = await window.ipcRenderer.invoke('get-logs');
+                const data = logs.map(log => ({
+                    date: new Date(log.timestamp).toLocaleDateString(),
+                    value: log.health
+                }));
+
+                chart.data.labels = data.map(d => d.date);
+                chart.data.datasets[0].data = data.map(d => d.value);
+                chart.update();
+            } catch (error) {
+                console.error('Error loading health data:', error);
+            }
+        }
+
+        // Initial load
+        loadHealthData();
+    </script>
+</body>
+</html> 
