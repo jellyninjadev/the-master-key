@@ -1,0 +1,20 @@
+{
+  "name": "the-master-key",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.ts",
+  "type": "module",
+  "keywords": ["The Master Key"],
+  "author": "Vlad Rimsha",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^18.2.0",
+    "react-devtools-core": "^6.1.1"
+  },
+  "dependencies": {
+    "@inkjs/ui": "^2.0.0",
+    "ink": "^4.1.0",
+    "react": "^18.2.0"
+  }
+}
